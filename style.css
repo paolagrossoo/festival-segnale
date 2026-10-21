@@ -168,6 +168,12 @@ h3 {
   }
 }
 
+@media (min-width: 1024px) {
+  .event-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 .event-card {
   margin-bottom: 1.5rem;
   overflow: hidden;
