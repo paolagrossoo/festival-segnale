@@ -288,3 +288,24 @@ h3 {
 .indirizzi-sedi li {
   margin-bottom: 0.75rem;
 }
+
+.indirizzi-sedi {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 1rem;
+}
+
+.sede-card {
+  padding: 1.25rem;
+  border: 1px solid #b7c0b7;
+  border-radius: 0.75rem;
+  background: #ffffff;
+}
+
+.sede-card h3 {
+  margin-top: 0;
+}
+
+.sede-card p {
+  margin-bottom: 1rem;
+}
