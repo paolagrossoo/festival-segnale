@@ -222,3 +222,54 @@ h3 {
 }
 
 
+.luoghi-swiper {
+  max-width: 54rem;
+  overflow: hidden;
+  border-radius: 0.75rem;
+}
+
+.luoghi-swiper figure {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid #b7c0b7;
+  border-radius: 0.75rem;
+  background: #ffffff;
+}
+
+.luoghi-swiper img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.luoghi-swiper figcaption {
+  padding: 1rem 1.5rem;
+}
+
+.luoghi-swiper figcaption h3 {
+  margin-top: 0;
+}
+
+.luoghi-comandi {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.luoghi-comandi .swiper-button-prev,
+.luoghi-comandi .swiper-button-next {
+
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: 0;
+  border: 1px solid var(--colore-primario);
+  border-radius: 50%;
+  background: #ffffff;
+  color: var(--colore-primario);
+}
+
+.luoghi-comandi .swiper-button-prev::after,
+.luoghi-comandi .swiper-button-next::after {
+  font-size: 1rem;
+  font-weight: bold;
+}
