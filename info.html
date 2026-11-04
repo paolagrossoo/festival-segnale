@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Segnale — Festival di design</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@14.4.0/swiper-bundle.min.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#contenuto">Vai al contenuto</a>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="index.html">Segnale<span>Festival di design</span></a>
+      <nav aria-label="Navigazione principale">
+        <a href="index.html">Home</a>
+        <!-- Da completare: collegare questa voce alla pagina Programma. -->
+        <a href="programma.html">Programma</a>
+        <a href="info.html" aria-current="page">Info e luoghi</a>
+      </nav>
+    </div>
+  </header>
+
+ <main id="contenuto" class="container">
+  <section class="intro" aria-labelledby="titolo-luoghi">
+    <p class="eyebrow">12–13 giugno · Torino · Festival immaginario</p>
+    <h1 id="titolo-luoghi">Dove si svolgerà il festival</h1>
+    <p class="lead">Tre luoghi per incontri, laboratori e mostre.</p>
+  </section>
+
+  <section class="content-section" aria-labelledby="titolo-sedi">
+    <h2 id="titolo-sedi">Le sedi</h2>
+
+    <div class="swiper luoghi-swiper">
+      <div class="swiper-wrapper">
+        <article class="swiper-slide">
+          <figure>
+            <img src="assets/luoghi/sede-centrale.jpg"
+                 alt="Interno di Officina Nord"
+                 width="1200" height="800">
+            <figcaption>
+              <h3>Officina Nord</h3>
+              <p>Uno spazio dedicato agli incontri e ai progetti condivisi.</p>
+            </figcaption>
+          </figure>
+        </article>
+
+        <article class="swiper-slide">
+          <figure>
+            <img src="assets/luoghi/politecnico-valentino.jpg"
+                 alt="Interno di Spazio Forma"
+                 width="1200" height="800">
+            <figcaption>
+              <h3>Spazio Forma</h3>
+              <p>La sede dei laboratori e delle sperimentazioni.</p>
+            </figcaption>
+          </figure>
+        </article>
+
+        <article class="swiper-slide">
+          <figure>
+            <img src="assets/luoghi/mirafiori.jpg"
+                 alt="Cortile di Cortile Comune"
+                 width="1200" height="800">
+            <figcaption>
+              <h3>Cortile Comune</h3>
+              <p>Un luogo per mostre e percorsi.</p>
+            </figcaption>
+          </figure>
+        </article>
+      </div>
+
+      <div class="luoghi-comandi">
+        <button class="swiper-button-prev" type="button" aria-label="Sede precedente"></button>
+        <button class="swiper-button-next" type="button" aria-label="Sede successiva"></button>
+      </div>
+    </div>
+
+  </section>
+ </main>
+ <footer class="site-footer"><div class="container"><p>Segnale · Progetto didattico · Festival immaginario</p></div></footer>
+  
+ <script src="https://cdn.jsdelivr.net/npm/swiper@14.4.0/swiper-bundle.min.js"></script>
+ <script>
+  new Swiper(".luoghi-swiper", {
+    slidesPerView: 1,
+    spaceBetween: 24,
+    loop: false,
+    autoplay: false,
+    navigation: {
+      nextEl: ".luoghi-swiper .swiper-button-next",
+      prevEl: ".luoghi-swiper .swiper-button-prev"
+    }
+  });
+  </script>
+<body
