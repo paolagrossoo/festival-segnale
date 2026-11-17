@@ -48,6 +48,15 @@ a:focus-visible {
   border-bottom: 4px solid var(--colore-primario);
 }
 
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;                       
+  padding: 1.25rem 0;
+  background: var(--colore-sfondo);   
+  border-bottom: 4px solid var(--colore-primario);
+}
+
 .brand {
   display: inline-block;
   color: var(--colore-testo);
@@ -65,17 +74,51 @@ a:focus-visible {
 }
 
 nav {
+  display: flex;
+  flex-direction: column;   
+  align-items: flex-start;
+  gap: 0.25rem;
   margin-top: 1rem;
 }
 
 nav a {
-  display: inline-block;
-  margin-right: 1rem;
-  padding: 0.25rem 0;
+  display: block;
+  padding: 0.5rem 0;        
 }
 
 nav a[aria-current="page"] {
   font-weight: bold;
+}
+
+.site-header {
+  padding: 0.75rem 0;
+}
+
+nav {
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 600px) {
+  .site-header {
+    padding: 1.25rem 0;
+  }
+
+  nav {
+    margin-top: 1rem;
+  }
+}
+
+@media (min-width: 600px) {
+  nav {
+    flex-direction: row;    
+    flex-wrap: wrap;        
+    align-items: center;
+    gap: 0.25rem 1.5rem;
+  }
+
+  nav a {
+    padding: 0.25rem 0;
+  }
 }
 
 .intro {
@@ -223,7 +266,7 @@ h3 {
 
 
 .luoghi-swiper {
-  max-width: 67 rem;
+  max-width: 67rem;
   overflow: hidden;
   border-radius: 0.75rem;
 }
