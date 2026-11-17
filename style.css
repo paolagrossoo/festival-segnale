@@ -8,7 +8,7 @@
   --colore-sfondo: #f5f2e9;
   --colore-testo: #202923;
   --font-testo: "Poppins", Arial, sans-serif;
-  --font-titoli: "Bricolage Grotesque", Arial, sans-serif;
+  --font-titoli: "Momo Trust Display", Arial, sans-serif;
 }
 
 * {
@@ -136,6 +136,7 @@ h1,
 h2,
 h3 {
   font-family: var(--font-titoli);
+  font-weight: 400;
   line-height: 1.2;
 }
 
