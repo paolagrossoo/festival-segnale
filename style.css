@@ -3,9 +3,9 @@
 
 /* Scelte comuni: ogni regola usa var() per richiamarne il valore. */
 :root {
-  --colore-primario: #356ed9;
-  --colore-primario-scuro: #032a94;
-  --colore-sfondo: #f5f2e9;
+  --colore-primario: #5798D7;
+  --colore-primario-scuro: #021B8D;
+  --colore-sfondo: #E6F1FA;
   --colore-testo: #202923;
   --font-testo: "Poppins", Arial, sans-serif;
   --font-titoli: "Momo Trust Display", Arial, sans-serif;
