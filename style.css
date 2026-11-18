@@ -6,7 +6,7 @@
   --colore-primario: #5798D7;
   --colore-primario-scuro: #021B8D;
   --colore-sfondo: #E6F1FA;
-  --colore-testo: #202923;
+  --colore-testo: #021B8D;
   --font-testo: "Poppins", Arial, sans-serif;
   --font-titoli: "Momo Trust Display", Arial, sans-serif;
 }
@@ -127,7 +127,7 @@ nav {
 
 .eyebrow,
 .event-meta {
-  color: #46564b;
+  color: var(--colore-testo);
   font-size: 0.875rem;
   font-weight: bold;
 }
@@ -143,7 +143,7 @@ h3 {
 h1 {
   max-width: 18ch;
   margin: 0.75rem 0 1.25rem;
-  font-size: 2.5rem;
+  font-size: 3rem;
 }
 
 h2 {
@@ -241,14 +241,14 @@ h3 {
 }
 
 .event-place {
-  color: #46564b;
+  color: var(--colore-testo);
   font-size: 0.875rem;
 }
 
 .site-footer {
   padding: 1.25rem 0;
   border-top: 1px solid #b7c0b7;
-  color: #46564b;
+  color: var(--colore-testo);
   font-size: 0.875rem;
 }
 
