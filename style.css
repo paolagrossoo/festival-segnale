@@ -353,3 +353,52 @@ h3 {
 .sede-card p {
   margin-bottom: 1rem;
 }
+
+.stato {
+  padding: 1rem 1.25rem;
+  border: 1px solid #b7c0b7;
+  border-radius: 0.75rem;
+  background: #ffffff;
+}
+
+.stato-errore {
+  border-color: #b00020;
+  color: #b00020;
+}
+
+.meteo-card {
+  width: 100%;
+  padding: 1.5rem;
+  border: 1px solid #b7c0b7;
+  border-radius: 0.75rem;
+  background: #ffffff;
+}
+
+.meteo-dati {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #e0e6e0;
+}
+
+.meteo-etichetta {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--colore-primario);
+}
+
+.meteo-valore {
+  display: block;
+  margin-top: 0.25rem;
+  font-family: var(--font-titoli);
+  font-size: 1.75rem;
+  font-weight: 400;
+  color: var(--colore-testo);
+}
+
+.meteo-fonte {
+  margin: 1rem 0 0;
+  font-size: 0.875rem;
+}

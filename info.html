@@ -128,6 +128,37 @@
   </div>
  </section>
 
+ <section class="content-section" aria-labelledby="titolo-meteo">
+    <h2 id="titolo-meteo">Meteo a Torino adesso</h2>
+    <p class="reading-text">Condizioni attuali in città (non rappresentano le previsioni per le date del festival).</p>
+
+    <p id="meteo-stato" class="stato" role="status" hidden></p>
+
+    <div id="meteo-box" class="meteo-card" hidden>
+      <div class="meteo-dati">
+        <div class="meteo-dato">
+          <span class="meteo-etichetta">Temperatura</span>
+          <strong id="meteo-temp" class="meteo-valore">--</strong>
+        </div>
+        <div class="meteo-dato">
+          <span class="meteo-etichetta">Vento</span>
+          <strong id="meteo-vento" class="meteo-valore">--</strong>
+        </div>
+        <div class="meteo-dato">
+          <span class="meteo-etichetta">Rilevazione</span>
+          <strong id="meteo-ora" class="meteo-valore">--</strong>
+        </div>
+      </div>
+      <p class="meteo-fonte">
+        Dati meteo: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>, licenza CC BY 4.0
+      </p>
+    </div>
+
+    <noscript>
+      <p class="stato stato-errore">Per visualizzare il meteo attuale è necessario attivare JavaScript.</p>
+    </noscript>
+  </section>
+
  </main>
  <footer class="site-footer"><div class="container"><p>Segnale · Progetto didattico · Festival immaginario</p></div></footer>
   
@@ -144,5 +175,61 @@
     }
   });
   </script>
+  <script>
+  const URL_METEO = "https://api.open-meteo.com/v1/forecast?latitude=45.0703&longitude=7.6869&current=temperature_2m,wind_speed_10m&timezone=Europe%2FRome";
+
+  const meteoStato = document.getElementById("meteo-stato");
+  const meteoBox = document.getElementById("meteo-box");
+  const meteoTemp = document.getElementById("meteo-temp");
+  const meteoVento = document.getElementById("meteo-vento");
+  const meteoOra = document.getElementById("meteo-ora");
+
+  function mostraStatoMeteo(testo, errore = false) {
+    meteoStato.textContent = testo;
+    meteoStato.classList.toggle("stato-errore", errore);
+    meteoStato.setAttribute("role", errore ? "alert" : "status");
+    meteoStato.hidden = false;
+  }
+
+  function formattaOraMeteo(isoString) {
+    if (!isoString || !isoString.includes("T")) return isoString || "--";
+    const [dataParte, oraParte] = isoString.split("T");
+    const [anno, mese, giorno] = dataParte.split("-");
+    return `${oraParte} (${giorno}/${mese}/${anno})`;
+  }
+
+  async function caricaMeteo() {
+    mostraStatoMeteo("Caricamento dei dati meteo…");
+
+    try {
+      const risposta = await fetch(URL_METEO);
+      if (!risposta.ok) {
+        throw new Error("Risposta di rete non valida");
+      }
+
+      const dati = await risposta.json();
+      if (!dati.current || !dati.current_units) {
+        throw new Error("Formato dati non valido");
+      }
+
+      const temp = dati.current.temperature_2m;
+      const unitaTemp = dati.current_units.temperature_2m || "°C";
+      const vento = dati.current.wind_speed_10m;
+      const unitaVento = dati.current_units.wind_speed_10m || "km/h";
+
+      meteoTemp.textContent = `${temp} ${unitaTemp}`;
+      meteoVento.textContent = `${vento} ${unitaVento}`;
+      meteoOra.textContent = formattaOraMeteo(dati.current.time);
+
+      meteoStato.hidden = true;
+      meteoBox.hidden = false;
+    } catch {
+      mostraStatoMeteo("Al momento non è possibile caricare il meteo attuale di Torino.", true);
+    }
+  }
+
+  caricaMeteo();
+  
+ </script>
 </body> 
 </html>
