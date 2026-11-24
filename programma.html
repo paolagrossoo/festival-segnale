@@ -15,7 +15,6 @@
     <div class="container">
       <a class="brand" href="index.html">Segnale<span>Festival di design</span></a>
       <nav aria-label="Navigazione principale">
-        <!-- Da completare: collegare questa voce alla Home. -->
         <a href="index.html">Home</a>
         <a href="programma.html" aria-current="page">Programma</a>
         <a href="info.html">Info e luoghi</a>
@@ -31,73 +30,162 @@
       <p class="reading-text">Il venerdì esploriamo lettere, materiali e immagini. Il sabato incontriamo oggetti, mappe e progetti condivisi. Scopri gli appuntamenti e i luoghi del festival.</p>
     </section>
 
-    <section class="content-section" aria-labelledby="titolo-eventi">
+   <section class="content-section" aria-labelledby="titolo-eventi">
       <h2 id="titolo-eventi">Gli appuntamenti</h2>
-      <div class="event-grid">
-  <article class="event-card">
-    <img src="assets/lettere-in-movimento.svg" alt="Lettere geometriche disposte su una griglia" width="900" height="600">
-    <div class="event-body">
-      <p class="event-meta">Venerdì 12 giugno · 10:00 · Incontro</p>
-      <h3>Lettere in movimento</h3>
-      <p>Come cambia un messaggio quando cambiano le lettere? Un incontro su tipografia, ritmo e comunicazione visiva.</p>
-      <p class="event-place"><strong>Sede:</strong> Officina Nord</p>
-    </div>
-  </article>
 
-  <article class="event-card">
-    <img src="assets/materia-seconda.svg" alt="Forme sovrapposte che richiamano campioni di materiali" width="900" height="600">
-    <div class="event-body">
-      <p class="event-meta">Venerdì 12 giugno · 14:00 · Laboratorio</p>
-      <h3>Materia seconda</h3>
-      <p>Un laboratorio per osservare materiali di recupero e immaginare nuovi utilizzi attraverso piccoli esperimenti.</p>
-      <p class="event-place"><strong>Sede:</strong> Spazio Forma</p>
-    </div>
-  </article>
+      <p id="stato" class="stato" role="status" hidden></p>
 
-  <article class="event-card">
-    <img src="assets/citta-manifesto.svg" alt="Rettangoli colorati compongono una città astratta." width="900" height="600">
-    <div class="event-body">
-      <p class="event-meta">Venerdì 12 giugno · 17:00 · Mostra</p>
-      <h3>La città in un manifesto</h3>
-      <p>Una raccolta di manifesti immaginari racconta quartieri, incontri e abitudini della città attraverso forme e colori.</p>
-      <p class="event-place"><strong>Sede:</strong> Cortile Comune</p>
-    </div>
-  </article>
+      <div id="elenco-eventi" class="event-grid" aria-busy="true"></div>
 
-  <article class="event-card">
-    <img src="assets/oggetti-dialogo.svg" alt="Due forme geometriche si fronteggiano sopra una linea comune." width="900" height="600">
-    <div class="event-body">
-      <p class="event-meta">Sabato 13 giugno · 10:00 · Incontro</p>
-      <h3>Oggetti in dialogo</h3>
-      <p>Designer e artigiani discutono come nascono gli oggetti quotidiani, tra funzione, cura dei dettagli e possibilità di riparazione.</p>
-      <p class="event-place"><strong>Sede:</strong> Officina Nord</p>
-    </div>
-  </article>
-
-  <article class="event-card">
-    <img src="assets/mappe-abitare.svg" alt="Un percorso collega tre punti su una mappa geometrica." width="900" height="600">
-    <div class="event-body">
-      <p class="event-meta">Sabato 13 giugno · 14:00 · Laboratorio</p>
-      <h3>Mappe da abitare</h3>
-      <p>Disegniamo una mappa fatta di percorsi, punti di incontro e luoghi da riscoprire, partendo dall'esperienza di chi li attraversa.</p>
-      <p class="event-place"><strong>Sede:</strong> Spazio Forma</p>
-    </div>
-  </article>
-
-  <article class="event-card">
-    <img src="assets/progettare-insieme.svg" alt="Moduli di colori diversi si incastrano in una composizione comune." width="900" height="600">
-    <div class="event-body">
-      <p class="event-meta">Sabato 13 giugno · 17:00 · Mostra</p>
-      <h3>Progettare insieme</h3>
-      <p>Una selezione di progetti collettivi mostra come idee diverse possano diventare un risultato condiviso.</p>
-      <p class="event-place"><strong>Sede:</strong> Cortile Comune</p>
-    </div>
-  </article>
-</div>
-      </div>
+      <noscript>
+        <p class="stato stato-errore">Per vedere il programma è necessario attivare JavaScript.</p>
+      </noscript>
     </section>
   </main>
 
   <footer class="site-footer"><div class="container"><p>Segnale · Progetto didattico · Festival immaginario</p></div></footer>
+
+  <script>
+    const URL_EVENTI = "dati/eventi.json";
+    const URL_SEDI = "dati/sedi.json";
+    const SEDE_MANCANTE = "Sede da definire";
+
+    const elenco = document.getElementById("elenco-eventi");
+    const stato = document.getElementById("stato");
+
+    /* ---------- Messaggi di stato ---------- */
+
+    function mostraStato(testo, errore = false) {
+      stato.textContent = testo;
+      stato.classList.toggle("stato-errore", errore);
+      stato.setAttribute("role", errore ? "alert" : "status");
+      stato.hidden = false;
+    }
+
+    function nascondiStato() {
+      stato.hidden = true;
+      stato.textContent = "";
+    }
+
+    /* ---------- Caricamento dei dati ---------- */
+
+    function erroreFile(url) {
+      const errore = new Error("File non leggibile: " + url);
+      errore.file = url;
+      return errore;
+    }
+
+    async function caricaJson(url) {
+      let risposta;
+      try {
+        risposta = await fetch(url);
+      } catch {
+        throw erroreFile(url);
+      }
+      if (!risposta.ok) {
+        throw erroreFile(url);
+      }
+      try {
+        const dati = await risposta.json();
+        if (!Array.isArray(dati)) {
+          throw new Error("Formato non valido");
+        }
+        return dati;
+      } catch {
+        throw erroreFile(url);
+      }
+    }
+
+    /* ---------- Costruzione delle schede ---------- */
+
+    function crea(tag, classe, testo) {
+      const nodo = document.createElement(tag);
+      if (classe) nodo.className = classe;
+      if (testo !== undefined) nodo.textContent = testo;
+      return nodo;
+    }
+
+    function formattaData(iso) {
+      if (!iso) return "";
+      const [anno, mese, giorno] = String(iso).split("-").map(Number);
+      const data = new Date(anno, mese - 1, giorno);
+      if (Number.isNaN(data.getTime())) return String(iso);
+      const testo = data.toLocaleDateString("it-IT", {
+        weekday: "long",
+        day: "numeric",
+        month: "long"
+      });
+      return testo.charAt(0).toUpperCase() + testo.slice(1);
+    }
+
+    function creaScheda(evento, nomiSedi) {
+      const scheda = crea("article", "event-card");
+
+      if (evento.immagine) {
+        const immagine = document.createElement("img");
+        immagine.src = evento.immagine;
+        immagine.alt = evento.immagine_alt || "";
+        immagine.width = 900;
+        immagine.height = 600;
+        immagine.loading = "lazy";
+        scheda.append(immagine);
+      }
+
+      const corpo = crea("div", "event-body");
+
+      const meta = [formattaData(evento.data), evento.orario, evento.categoria]
+        .filter(Boolean)
+        .join(" · ");
+      corpo.append(crea("p", "event-meta", meta));
+      corpo.append(crea("h3", "", evento.titolo || "Evento senza titolo"));
+      corpo.append(crea("p", "", evento.descrizione || ""));
+
+      const nomeSede = nomiSedi.get(evento.sede_id) || SEDE_MANCANTE;
+      const luogo = crea("p", "event-place");
+      luogo.append(crea("strong", "", "Sede:"), " " + nomeSede);
+      corpo.append(luogo);
+
+      scheda.append(corpo);
+      return scheda;
+    }
+
+    /* ---------- Avvio ---------- */
+
+    async function avviaProgramma() {
+      mostraStato("Caricamento del programma…");
+
+      try {
+        const [eventi, sedi] = await Promise.all([
+          caricaJson(URL_EVENTI),
+          caricaJson(URL_SEDI)
+        ]);
+
+        if (eventi.length === 0) {
+          mostraStato("Al momento non ci sono eventi in programma.");
+          return;
+        }
+
+        const nomiSedi = new Map(sedi.map((sede) => [sede.id, sede.nome]));
+
+        // Ordine cronologico: prima per data, poi per orario
+        const ordinati = [...eventi].sort((a, b) =>
+          `${a.data} ${a.orario}`.localeCompare(`${b.data} ${b.orario}`)
+        );
+
+        const schede = ordinati.map((evento) => creaScheda(evento, nomiSedi));
+        elenco.replaceChildren(...schede);
+        nascondiStato();
+      } catch (errore) {
+        const messaggio = errore.file
+          ? `Non è stato possibile leggere il file ${errore.file}. Riprova più tardi.`
+          : "Non è stato possibile mostrare il programma. Riprova più tardi.";
+        mostraStato(messaggio, true);
+      } finally {
+        elenco.setAttribute("aria-busy", "false");
+      }
+    }
+
+    avviaProgramma();
+  </script>
 </body>
 </html>
